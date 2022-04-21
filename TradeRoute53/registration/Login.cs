@@ -1,7 +1,11 @@
 using System;
+using System.Data.SQLite;
 
 
 public class Login{
+
+    SQLiteConnection dbConnection;
+
 
     struct User{
         public string name;
@@ -9,6 +13,9 @@ public class Login{
     }
 
     protected bool checkUser(string username, string password){
+
+        dbConnection = new SQLiteConnection("Data Source=./db.sqlite;Version=3;");
+        dbConnection.Open();
 
         
 
