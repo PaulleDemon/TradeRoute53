@@ -2,5 +2,5 @@
     "code-runner.executorMap":{
         "csharp": "cd $dir && dotnet run",
 
-    }
+    },
 }
