@@ -1,7 +1,9 @@
 ﻿
 using System;
 namespace TradeRoute53
-{
+{   
+
+    SQLiteConnection dbConnection;
     
     class Program{
 
