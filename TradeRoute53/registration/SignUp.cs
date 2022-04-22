@@ -10,10 +10,27 @@ public class SignUp{
     }
 
 
-    private bool userExists(string username){
+    private bool checkUserExists(string username){
         // checks if the  user name already exists
 
-        return false;
+        dbConnection = new SQLiteConnection("Data Source=./db.sqlite;Version=3;New=False;");
+        dbConnection.Open();
+
+        SQLiteCommand cmd = new SQLiteCommand(dbConnection);
+        cmd.CommandText = DBStmts.CHECK_USER_EXIST;
+
+        cmd.Parameters.AddWithValue("username", username);
+
+        cmd.Prepare();
+
+        SQLiteDataReader reader = cmd.ExecuteReader();
+
+        bool record_exists = reader.NextResult();
+
+        dbConnection.Close();
+
+        return record_exists;
+
     }
 
     public bool signUp(){
@@ -29,7 +46,7 @@ public class SignUp{
         Console.WriteLine("Password");
         usr.password = Console.ReadLine();
 
-        return userExists(usr.name);
+        return checkUserExists(usr.name);
     }
 
 }

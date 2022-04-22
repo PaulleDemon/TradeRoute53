@@ -33,13 +33,16 @@ static class DBStmts{
                                                         REFERENCES users(id)
                                                     );";
 
-
     public const string INSERT_USER = @"INSERT INTO users (username, password) 
                                           VALUES (@username, @password);";
 
+    // check the login credentials
     public const string CHECK_USER_EXIST = @"SELECT EXISTS(
                                             SELECT 1 FROM users WHERE 
                                             username=@username AND password=@password);";
+
+    // Check if the username is available
+    public const string CHECK_USERNAME_AVAILABLE = @"SELECT EXIST(SELECT 1 From user WHERE username = @username);"; 
 
     public const string LIST_PRODUCT = @"SELECT * FROM products;";
 
