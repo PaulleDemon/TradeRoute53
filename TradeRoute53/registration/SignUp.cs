@@ -17,7 +17,7 @@ public class SignUp{
         dbConnection.Open();
 
         SQLiteCommand cmd = new SQLiteCommand(dbConnection);
-        cmd.CommandText = DBStmts.CHECK_USER_EXIST;
+        cmd.CommandText = DBStmts.CHECK_USERNAME_AVAILABLE;
 
         cmd.Parameters.AddWithValue("@username", username);
 
@@ -31,7 +31,7 @@ public class SignUp{
 
         dbConnection.Close();
 
-        return record_exists;
+        return !record_exists; // return if the username is available
 
     }
 
@@ -42,10 +42,10 @@ public class SignUp{
 
         Console.WriteLine("\n\t\t\t Login");
         
-        Console.WriteLine("Username: ");
+        Console.Write("Username: ");
         usr.name = Console.ReadLine();
         
-        Console.WriteLine("Password");
+        Console.Write("Password: ");
         usr.password = Console.ReadLine();
 
         return checkUserExists(usr.name);

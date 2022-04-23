@@ -26,7 +26,6 @@ public class Login{
         cmd.Parameters.AddWithValue("@password", password);
 
         cmd.Prepare();
-        Console.WriteLine(username+":"+password);
 
         SQLiteDataReader reader = cmd.ExecuteReader();
 
@@ -45,6 +44,9 @@ public class Login{
     public bool login(){
         
         User usr;
+        usr.password = String.Empty;
+
+        ConsoleKeyInfo key;
 
         Console.WriteLine("\n\t\t\t\t\t   Login");
         
@@ -52,7 +54,23 @@ public class Login{
         usr.name = Console.ReadLine();
         
         Console.Write("Password: ");
-        usr.password = Console.ReadLine();
+
+        do{
+            key = Console.ReadKey(true);
+
+             if (key.Key == ConsoleKey.Backspace && usr.password.Length > 0)
+            {
+                Console.Write("\b \b");
+                usr.password = usr.password[0..^1];
+            }
+            else if (!char.IsControl(key.KeyChar))
+            {
+                Console.Write("*");
+                usr.password += key.KeyChar;
+            }
+
+        }while(key.Key != ConsoleKey.Enter && usr.password.Length < 30);
+
 
         return checkUser(usr.name, usr.password);
     }

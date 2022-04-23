@@ -42,7 +42,7 @@ static class DBStmts{
                                             username=@username AND password=@password);";
 
     // Check if the username is available
-    public const string CHECK_USERNAME_AVAILABLE = @"SELECT EXIST(SELECT 1 From user WHERE username = @username);"; 
+    public const string CHECK_USERNAME_AVAILABLE = @"SELECT EXISTS(SELECT 1 From users WHERE username=@username);"; 
 
     public const string LIST_PRODUCT = @"SELECT * FROM products;";
 

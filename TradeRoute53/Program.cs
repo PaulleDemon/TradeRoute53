@@ -9,8 +9,23 @@ namespace TradeRoute53
         SQLiteConnection dbConnection;
 
         Login login;
+        SignUp signup;
         Home home;
 
+        class RegistrationPage{
+
+            void display(){
+                char choice;
+
+                do{
+                    Console.WriteLine("\t\t\t\t a. Login b. SignUp");
+                    Console.Write(">");
+                    choice = Convert.ToChar(Console.ReadLine()[0]);
+                }while(choice != 'a' && choice != 'b');
+            
+            }
+
+        }
 
         public Controller(){
             // create tables in database if it doesn't already exits
@@ -35,17 +50,33 @@ namespace TradeRoute53
                 
             Console.WriteLine("\n\t\t\t\t\t TradeRoute53");
             this.login = new Login();
+            this.signup = new SignUp();
 
         }
+        
+
+        private char registrationPage(){
+            
+            char choice='x';
+            Console.WriteLine("\n\t a. Login b. Signup");
+            do{
+                Console.Write(">");
+                choice = Convert.ToChar(Console.ReadLine());
+            
+            }while(choice != 'a' && choice != 'b');
+
+            return choice;
+        }
+
 
         public void start(){
+            
+            while (true){
 
-            while (!this.login.login()){
-                Console.WriteLine("Invalid credentials Try again");
-            };
 
-            this.home = new Home();
 
+            }
+            
         }
 
     }
