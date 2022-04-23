@@ -19,13 +19,15 @@ public class SignUp{
         SQLiteCommand cmd = new SQLiteCommand(dbConnection);
         cmd.CommandText = DBStmts.CHECK_USER_EXIST;
 
-        cmd.Parameters.AddWithValue("username", username);
+        cmd.Parameters.AddWithValue("@username", username);
 
         cmd.Prepare();
 
         SQLiteDataReader reader = cmd.ExecuteReader();
+        
+        reader.Read();
 
-        bool record_exists = reader.NextResult();
+        bool record_exists = reader.GetBoolean(0);
 
         dbConnection.Close();
 

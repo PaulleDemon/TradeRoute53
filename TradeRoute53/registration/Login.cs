@@ -46,18 +46,15 @@ public class Login{
         
         User usr;
 
-        Console.WriteLine("\n\t\t\t Login");
+        Console.WriteLine("\n\t\t\t\t\t   Login");
         
-        Console.WriteLine("Username: ");
+        Console.Write("Username: ");
         usr.name = Console.ReadLine();
         
-        Console.WriteLine("Password");
+        Console.Write("Password: ");
         usr.password = Console.ReadLine();
 
-
-        Console.WriteLine(checkUser(usr.name, usr.password));
-
-        return false;
+        return checkUser(usr.name, usr.password);
     }
 
 }

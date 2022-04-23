@@ -4,14 +4,16 @@ using System.Data.SQLite;
 namespace TradeRoute53
 {   
 
-    
-    class Program{
+    public class Controller{
 
         SQLiteConnection dbConnection;
-        
 
-        Program(){
-            
+        Login login;
+        Home home;
+
+
+        public Controller(){
+            // create tables in database if it doesn't already exits
             dbConnection = new SQLiteConnection("Data Source=db.sqlite;New=False;");
             dbConnection.Open();
 
@@ -28,21 +30,34 @@ namespace TradeRoute53
             cmd.CommandText = DBStmts.CREATE_CART_TABLE;
             cmd.ExecuteNonQuery();
 
-            dbConnection.Close(); 
+            dbConnection.Close();
 
-            Console.WriteLine("Hello world2");
+                
+            Console.WriteLine("\n\t\t\t\t\t TradeRoute53");
+            this.login = new Login();
 
         }
 
+        public void start(){
+
+            while (!this.login.login()){
+                Console.WriteLine("Invalid credentials Try again");
+            };
+
+            this.home = new Home();
+
+        }
+
+    }
+
+    
+    class Program{
+    
         public static void Main(string[] args){
-            
-            Console.WriteLine("Hello world");
-            
-            Program pgm = new Program();
 
-            Login login = new Login();
 
-            login.login();
+            Controller ctrller = new Controller();
+            ctrller.start();
 
         }
 
