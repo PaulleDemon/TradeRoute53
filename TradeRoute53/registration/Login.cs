@@ -26,14 +26,16 @@ public class Login{
         cmd.Parameters.AddWithValue("@password", password);
 
         cmd.Prepare();
-        cmd.ExecuteNonQuery();
-
-        Console.WriteLine(cmd.CommandText);
         Console.WriteLine(username+":"+password);
 
         SQLiteDataReader reader = cmd.ExecuteReader();
 
-        bool record_exists = reader.NextResult();
+        reader.Read();
+        // string exists = cmd.ExecuteScalar().ToString();
+
+        // Console.WriteLine("GU: "+reader.GetBoolean(0));
+
+        bool record_exists = reader.GetBoolean(0);
 
         dbConnection.Close();
 
