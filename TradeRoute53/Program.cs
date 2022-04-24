@@ -59,35 +59,55 @@ namespace TradeRoute53
 
         public void start(){
             
-            
-            bool signup_success = false;
-            bool login_success = false;
+            char home_choice = 'a'; 
+            string user = "";
 
             do{ 
                 // keep looping until login is successful 
                 char choice = registrationPage();
                 
                 if (choice == 'a'){
-                    login_success = this.login.login();
+                    user = this.login.login();
 
-                    if (!login_success){
+                    if (user.Equals("")){
                         Console.WriteLine("\nInvalid credentials\n");
                     }
                 }
 
                 else{
-                    signup_success = this.signup.signUp();
 
-                    if (!signup_success){
+                    if (!this.signup.signUp()){
                         Console.WriteLine("\nThis user name is taken please try with another name\n");
                     }else{
                         Console.WriteLine("\n Successfully registered please login");
                     }
                 }
 
-            }while(!login_success);
+            }while(user.Equals(""));
+
 
             home = new Home();
+
+            do {// Continue asking for input until X is pressed to exit
+                
+                home.listProduct();
+                Console.Write(">");
+                home_choice = Convert.ToChar(Console.ReadLine()[0]);
+
+                if (home_choice == 'a'){
+
+                }else if(home_choice == 'b'){
+                    home.addProduct(user);
+
+                }else if (home_choice == 'c'){
+
+                }
+                else if (home_choice == 'x'){}
+                else{
+                    Console.WriteLine("Invalid choice");
+                }
+
+            }while(home_choice != 'x');
 
 
         }

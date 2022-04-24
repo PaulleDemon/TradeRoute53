@@ -36,12 +36,13 @@ public class Login{
 
         bool record_exists = reader.GetBoolean(0);
 
+        reader.Close();
         dbConnection.Close();
 
         return record_exists;
     }
 
-    public bool login(){
+    public string login(){
         
         User usr;
         usr.password = String.Empty;
@@ -71,8 +72,10 @@ public class Login{
 
         }while(key.Key != ConsoleKey.Enter && usr.password.Length < 30);
 
+        if (checkUser(usr.name, usr.password))
+            return usr.name;
 
-        return checkUser(usr.name, usr.password);
+        return "";
     }
 
 }

@@ -36,17 +36,33 @@ static class DBStmts{
     public const string INSERT_USER = @"INSERT INTO users (username, password) 
                                           VALUES (@username, @password);";
 
+    public const string GET_USER_FROM_NAME = @"SELECT id, username FROM users WHERE username=@username;";
+
     // check the login credentials
-    public const string CHECK_USER_EXIST = @"SELECT EXISTS(
-                                            SELECT 1 FROM users WHERE 
-                                            username=@username AND password=@password);";
+    public const string CHECK_USER_EXIST = @"SELECT * FROM users WHERE 
+                                             username=@username AND password=@password;";
 
     // Check if the username is available
     public const string CHECK_USERNAME_AVAILABLE = @"SELECT EXISTS(SELECT 1 From users WHERE username=@username);"; 
 
-    public const string LIST_PRODUCT = @"SELECT * FROM products;";
+    public const string LIST_PRODUCT = @"SELECT 
+                                                p.id, 
+                                                p.name, 
+                                                p.category, 
+                                                p.about, 
+                                                p.price, 
+                                                u.username 
+                                                FROM products p INNER JOIN users u on u.id=p.user_id;";
 
-    public const string SEARCH_PRODUCT = @"SELECT * from products WHERE name LIKE @name%";
+    public const string PRODUCT_FROM_ID = @"SELECT 
+                                                p.id,
+                                                p.name, 
+                                                p.category, 
+                                                p.about, 
+                                                p.price, 
+                                                u.username
+                                                FROM products WHERE id=@productid INNER JOIN users on users.id=products.user_id ";
+    public const string SEARCH_PRODUCT = @"SELECT products.*, users.username from products WHERE name LIKE @productname% INNER JOIN users ON users.id=products.user_id";
 
     public const string INSERT_PRODUCT = @"INSERT INTO products(name, category, about, price, user_id) 
                                                 VALUES(@name, @category, @about, @price, @user);";

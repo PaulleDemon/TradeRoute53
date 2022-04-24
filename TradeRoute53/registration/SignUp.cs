@@ -1,6 +1,5 @@
 using System.Data.SQLite;
 
-// TODO: Insert user
 public class SignUp{
 
     SQLiteConnection dbConnection;
@@ -11,8 +10,8 @@ public class SignUp{
     }
 
 
-    private bool checkUserExists(string username){
-        // checks if the  user name already exists
+    private bool insertUser(string username, string password){
+        // checks if the  user name already exists, if it doesn't exist inserts the user 
 
         dbConnection = new SQLiteConnection("Data Source=./db.sqlite;Version=3;New=False;");
         dbConnection.Open();
@@ -29,7 +28,18 @@ public class SignUp{
         reader.Read();
 
         bool record_exists = reader.GetBoolean(0);
+        
+        if (!record_exists){
+            // inserts the user into database if duplicate username doesn't exist
+            cmd.CommandText = DBStmts.INSERT_USER;
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@password", password);
 
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+        }
+
+        reader.Close();
         dbConnection.Close();
 
         return !record_exists; // return if the username is available
@@ -37,7 +47,7 @@ public class SignUp{
     }
 
     public bool signUp(){
-        // 
+        // returns True if signUp is successful, else false indicating that the username is already taken
         
         User usr;
 
@@ -49,7 +59,7 @@ public class SignUp{
         Console.Write("Password: ");
         usr.password = Console.ReadLine();
 
-        return checkUserExists(usr.name);
+        return insertUser(usr.name, usr.password);
     }
 
 }
