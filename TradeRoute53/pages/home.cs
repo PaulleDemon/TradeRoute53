@@ -10,16 +10,10 @@ public class Home{
         public string about;
         public float price;
 
+        public int stock;
+
     }
 
-    public Home(){
-        display();
-    }
-
-    public void display(){
-        Console.WriteLine("\n\t\t\t\t\t\t Home");
-        Console.WriteLine("\n\t\t\ta.list \t b.Search \t c.Sell \t d.Cart \t x.logout");
-    }
 
     public void addProduct(string user){
         
@@ -36,8 +30,14 @@ public class Home{
         Console.Write("\n about: ");
         prod.about = Console.ReadLine();
 
-        Console.Write("\n price: ");
+        Console.Write("\n price ($): ");
         prod.price = Convert.ToInt32(Console.ReadLine());
+        
+        Console.Write("\n stock (min=1): ");
+        prod.stock = Convert.ToInt32(Console.ReadLine());
+
+        if (prod.stock < 1)
+            prod.stock = 1;
 
         int user_id = -1;
 
@@ -67,15 +67,15 @@ public class Home{
                 cmd.Parameters.AddWithValue("@about", prod.about);
                 cmd.Parameters.AddWithValue("@category", prod.category);
                 cmd.Parameters.AddWithValue("@price", prod.price);
+                cmd.Parameters.AddWithValue("@stock", prod.stock);
                 cmd.Parameters.AddWithValue("@user", user_id);
 
                 cmd.Prepare();
 
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Thank you for partnering with us. We will try our best to sell your product. :)");
             }
-
-
-            
 
         }
 
@@ -88,19 +88,27 @@ public class Home{
 
         SQLiteCommand cmd = new SQLiteCommand(dbConnection);
         cmd.CommandText = DBStmts.SEARCH_PRODUCT;
-        cmd.Parameters.AddWithValue("@productname", search);
+        cmd.Parameters.AddWithValue("@productname", search+"%");
 
         cmd.ExecuteNonQuery();
 
 
         SQLiteDataReader reader = cmd.ExecuteReader();
 
-        Console.WriteLine("Products: ");
 
-        while (reader.Read()){
-            Console.WriteLine($"id: {reader.GetInt32(0)}");
-            Console.WriteLine($"product: {reader.GetString(1)}");
-            Console.WriteLine($"Price: {reader.GetFloat(4)}");
+        if (!reader.HasRows){
+            Console.WriteLine("Sorry no record found :(. Try searching for something else. :)");
+        }
+
+        else{
+            
+            Console.WriteLine("Products: ");
+            while (reader.Read()){
+                Console.WriteLine();
+                Console.WriteLine($"id: {reader.GetInt32(0)}");
+                Console.WriteLine($"product: {reader.GetString(1)}");
+                Console.WriteLine($"Price: ${reader.GetFloat(4)}");
+            }
         }
 
         reader.Close();
@@ -125,9 +133,10 @@ public class Home{
         Console.WriteLine("Products: ");
 
         while (reader.Read()){
+            Console.WriteLine();
             Console.WriteLine($"id: {reader.GetInt32(0)}");
             Console.WriteLine($"product: {reader.GetString(1)}");
-            Console.WriteLine($"Price: {reader.GetFloat(4)}");
+            Console.WriteLine($"Price: ${reader.GetFloat(4)}");
         }
 
         reader.Close();
@@ -158,8 +167,8 @@ public class Home{
             Console.WriteLine($"product: {reader.GetString(1)}");
             Console.WriteLine($"about: {reader.GetString(2)}");
             Console.WriteLine($"product: {reader.GetString(3)}");
-            Console.WriteLine($"Price: {reader.GetFloat(4)}");
-            Console.WriteLine($"seller: {reader.GetString(4)}");
+            Console.WriteLine($"Price: ${reader.GetFloat(4)}");
+            Console.WriteLine($"seller: {reader.GetString(5)}");
         }
 
         reader.Close();

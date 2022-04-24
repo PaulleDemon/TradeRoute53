@@ -70,7 +70,7 @@ namespace TradeRoute53
                     user = this.login.login();
 
                     if (user.Equals("")){
-                        Console.WriteLine("\nInvalid credentials\n");
+                        Console.WriteLine("\nInvalid credentials. Login again.\n");
                     }
                 }
 
@@ -88,21 +88,58 @@ namespace TradeRoute53
 
             home = new Home();
 
+            // home.listProduct();
             do {// Continue asking for input until X is pressed to exit
                 
-                home.listProduct();
+                Console.WriteLine("\n\t\t\t\t\t\t Home");
+                Console.WriteLine("\n\t\ta.list \t b.detail \t c.search \t d.sell \t x.logout & Exit");
+                
+
                 Console.Write(">");
                 home_choice = Convert.ToChar(Console.ReadLine()[0]);
 
+                // home.listProduct();
+
                 if (home_choice == 'a'){
+                    home.listProduct();
 
                 }else if(home_choice == 'b'){
-                    home.addProduct(user);
+                    
+                    Console.WriteLine("Enter the product id of the Product you want the detail about");
+                    Console.Write("\n> ");
+                    int product_id = Convert.ToInt32(Console.ReadLine());
+
+                    home.displayProductFromId(product_id);
+
+                    Console.WriteLine("\nPress B to buy, space to go back");
+                    Console.Write("> ");
+
+                    char ch = Convert.ToChar(Console.ReadLine()[0]);
+                    
+                    if (ch == 'b' || ch == 'B'){
+                        
+                        Console.WriteLine("\nPlease enter the shipping address");
+                        string shipping_address = Console.ReadLine();
+
+                        Console.WriteLine("\nThank you for purchasing from TradeRoute53");
+                        Console.WriteLine($"\nThe Product will arive to \"{shipping_address}\" in 2 days");
+
+                    }
 
                 }else if (home_choice == 'c'){
+                    
+                    Console.WriteLine("\t\t\t\t Search");
+                    Console.Write("\n> ");
+                    string search = Console.ReadLine();
+                    home.searchProduct(search);
 
+                }else if(home_choice == 'd'){
+                    home.addProduct(user);
                 }
-                else if (home_choice == 'x'){}
+                else if (home_choice == 'x'){
+
+                    //exits the program do nothing here
+                }
                 else{
                     Console.WriteLine("Invalid choice");
                 }

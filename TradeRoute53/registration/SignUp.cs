@@ -28,7 +28,9 @@ public class SignUp{
         reader.Read();
 
         bool record_exists = reader.GetBoolean(0);
+        reader.Close();
         
+
         if (!record_exists){
             // inserts the user into database if duplicate username doesn't exist
             cmd.CommandText = DBStmts.INSERT_USER;
@@ -39,7 +41,6 @@ public class SignUp{
             cmd.ExecuteNonQuery();
         }
 
-        reader.Close();
         dbConnection.Close();
 
         return !record_exists; // return if the username is available
@@ -51,7 +52,7 @@ public class SignUp{
         
         User usr;
 
-        Console.WriteLine("\n\t\t\t Login");
+        Console.WriteLine("\n\t\t\t Sign Up");
         
         Console.Write("Username: ");
         usr.name = Console.ReadLine();

@@ -16,6 +16,7 @@ static class DBStmts{
                                                     category VARCHAR(30),
                                                     about VARCHAR(100),
                                                     price REAL,
+                                                    stock INTEGER,
                                                     user_id INTEGER,
                                                     CONSTRAINT fk_user
                                                         FOREIGN KEY (user_id)
@@ -39,8 +40,8 @@ static class DBStmts{
     public const string GET_USER_FROM_NAME = @"SELECT id, username FROM users WHERE username=@username;";
 
     // check the login credentials
-    public const string CHECK_USER_EXIST = @"SELECT * FROM users WHERE 
-                                             username=@username AND password=@password;";
+    public const string CHECK_USER_EXIST = @"SELECT EXISTS(SELECT 1 FROM users WHERE 
+                                             username=@username AND password=@password);";
 
     // Check if the username is available
     public const string CHECK_USERNAME_AVAILABLE = @"SELECT EXISTS(SELECT 1 From users WHERE username=@username);"; 
@@ -52,7 +53,7 @@ static class DBStmts{
                                                 p.about, 
                                                 p.price, 
                                                 u.username 
-                                                FROM products p INNER JOIN users u on u.id=p.user_id;";
+                                                FROM products p INNER JOIN users u ON u.id=p.user_id WHERE p.stock > 0;";
 
     public const string PRODUCT_FROM_ID = @"SELECT 
                                                 p.id,
@@ -61,9 +62,11 @@ static class DBStmts{
                                                 p.about, 
                                                 p.price, 
                                                 u.username
-                                                FROM products WHERE id=@productid INNER JOIN users on users.id=products.user_id ";
-    public const string SEARCH_PRODUCT = @"SELECT products.*, users.username from products WHERE name LIKE @productname% INNER JOIN users ON users.id=products.user_id";
+                                                FROM products p INNER JOIN users u ON u.id=p.user_id AND p.id=@productid;";
+    public const string SEARCH_PRODUCT = @"SELECT products.*, users.username from products INNER JOIN users ON users.id=products.user_id WHERE (products.name LIKE @productname AND products.stock > 0);";
 
-    public const string INSERT_PRODUCT = @"INSERT INTO products(name, category, about, price, user_id) 
-                                                VALUES(@name, @category, @about, @price, @user);";
+    public const string UPDATE_STOCK = @"UPDATE products SET stock=stock-1 WHERE id=@productid;";
+
+    public const string INSERT_PRODUCT = @"INSERT INTO products(name, category, about, price, stock, user_id) 
+                                                VALUES(@name, @category, @about, @price, @stock, @user);";
 }
