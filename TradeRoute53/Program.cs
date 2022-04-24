@@ -120,10 +120,10 @@ namespace TradeRoute53
                         
                         Console.WriteLine("\nPlease enter the shipping address");
                         string shipping_address = Console.ReadLine();
-
+                        
                         Console.WriteLine("\nThank you for purchasing from TradeRoute53");
                         Console.WriteLine($"\nThe Product will arive to \"{shipping_address}\" in 2 days");
-
+                        home.updateStock(product_id);
                     }
 
                 }else if (home_choice == 'c'){

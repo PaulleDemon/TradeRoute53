@@ -30,9 +30,6 @@ public class Login{
         SQLiteDataReader reader = cmd.ExecuteReader();
 
         reader.Read();
-        // string exists = cmd.ExecuteScalar().ToString();
-
-        // Console.WriteLine("GU: "+reader.GetBoolean(0));
 
         bool record_exists = reader.GetBoolean(0);
 

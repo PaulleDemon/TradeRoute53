@@ -17,6 +17,8 @@ public class Home{
 
     public void addProduct(string user){
         
+        // adds products to the database
+
         Product prod;
 
         Console.WriteLine("\n\t\t\t\t\t\tSell product");
@@ -83,6 +85,8 @@ public class Home{
 
     public void searchProduct(string search){
 
+        // searches specific products
+
         dbConnection = new SQLiteConnection("Data Source=./db.sqlite;Version=3;New=False;");
         dbConnection.Open();
 
@@ -118,6 +122,8 @@ public class Home{
     }
 
     public void listProduct(){
+        
+        // lists all products from the database
 
         dbConnection = new SQLiteConnection("Data Source=./db.sqlite;Version=3;New=False;");
         dbConnection.Open();
@@ -146,7 +152,21 @@ public class Home{
 
     }
 
+    public void updateStock(int product_id){
+        // decreases the stock
+        dbConnection = new SQLiteConnection("Data Source=./db.sqlite;Version=3;New=False;");
+        dbConnection.Open();
+
+        SQLiteCommand cmd = new SQLiteCommand(dbConnection);
+        cmd.CommandText = DBStmts.UPDATE_STOCK;
+        cmd.Parameters.AddWithValue("@productid", product_id);
+        
+        cmd.ExecuteNonQuery();
+        dbConnection.Close();
+    }
+
     public void displayProductFromId(int id){
+        // displays product in detail
 
         dbConnection = new SQLiteConnection("Data Source=./db.sqlite;Version=3;New=False;");
         dbConnection.Open();
