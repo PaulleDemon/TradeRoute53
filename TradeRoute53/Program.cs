@@ -4,6 +4,8 @@ using System.Data.SQLite;
 namespace TradeRoute53
 {   
 
+
+
     public class Controller{
 
         SQLiteConnection dbConnection;
@@ -11,21 +13,6 @@ namespace TradeRoute53
         Login login;
         SignUp signup;
         Home home;
-
-        class RegistrationPage{
-
-            void display(){
-                char choice;
-
-                do{
-                    Console.WriteLine("\t\t\t\t a. Login b. SignUp");
-                    Console.Write(">");
-                    choice = Convert.ToChar(Console.ReadLine()[0]);
-                }while(choice != 'a' && choice != 'b');
-            
-            }
-
-        }
 
         public Controller(){
             // create tables in database if it doesn't already exits
@@ -59,6 +46,7 @@ namespace TradeRoute53
             
             char choice='x';
             Console.WriteLine("\n\t a. Login b. Signup");
+
             do{
                 Console.Write(">");
                 choice = Convert.ToChar(Console.ReadLine());
@@ -71,12 +59,37 @@ namespace TradeRoute53
 
         public void start(){
             
-            while (true){
-
-
-
-            }
             
+            bool signup_success = false;
+            bool login_success = false;
+
+            do{ 
+                // keep looping until login is successful 
+                char choice = registrationPage();
+                
+                if (choice == 'a'){
+                    login_success = this.login.login();
+
+                    if (!login_success){
+                        Console.WriteLine("\nInvalid credentials\n");
+                    }
+                }
+
+                else{
+                    signup_success = this.signup.signUp();
+
+                    if (!signup_success){
+                        Console.WriteLine("\nThis user name is taken please try with another name\n");
+                    }else{
+                        Console.WriteLine("\n Successfully registered please login");
+                    }
+                }
+
+            }while(!login_success);
+
+            home = new Home();
+
+
         }
 
     }

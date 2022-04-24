@@ -48,7 +48,7 @@ public class Login{
 
         ConsoleKeyInfo key;
 
-        Console.WriteLine("\n\t\t\t\t\t   Login");
+        Console.WriteLine("\n\t\t\t\t\t\t Login");
         
         Console.Write("Username: ");
         usr.name = Console.ReadLine();

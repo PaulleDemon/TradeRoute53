@@ -1,5 +1,6 @@
 using System.Data.SQLite;
 
+// TODO: Insert user
 public class SignUp{
 
     SQLiteConnection dbConnection;
