@@ -14,6 +14,13 @@ namespace TradeRoute53
         SignUp signup;
         Home home;
 
+        Insert insprd;
+        Search srch;
+        List lstPrds;
+        Stock stk;
+        Display dsp;
+
+
         public Controller(){
             // create tables in database if it doesn't already exits
             dbConnection = new SQLiteConnection("Data Source=db.sqlite;New=False;");
@@ -87,6 +94,11 @@ namespace TradeRoute53
 
 
             home = new Home();
+            insprd = new Insert();
+            srch = new Search();
+            lstPrds = new List();
+            stk = new Stock();
+            dsp = new Display();
 
             // home.listProduct();
             do {// Continue asking for input until X is pressed to exit
@@ -101,7 +113,7 @@ namespace TradeRoute53
                 // home.listProduct();
 
                 if (home_choice == 'a'){
-                    home.listProduct();
+                    lstPrds.listProduct();
 
                 }else if(home_choice == 'b'){
                     
@@ -109,21 +121,21 @@ namespace TradeRoute53
                     Console.Write("\n> ");
                     int product_id = Convert.ToInt32(Console.ReadLine());
 
-                    home.displayProductFromId(product_id);
+                    dsp.displayProductFromId(product_id);
 
-                    Console.WriteLine("\nPress B to buy, space to go back");
+                    Console.WriteLine("\nPress B to buy, Enter any other key to go back");
                     Console.Write("> ");
 
-                    char ch = Convert.ToChar(Console.ReadLine()[0]);
-                    
-                    if (ch == 'b' || ch == 'B'){
+                    string ch = Console.ReadLine();
+
+                    if (ch.ToLower().Equals("b")){
                         
                         Console.WriteLine("\nPlease enter the shipping address");
                         string shipping_address = Console.ReadLine();
                         
                         Console.WriteLine("\nThank you for purchasing from TradeRoute53");
                         Console.WriteLine($"\nThe Product will arive to \"{shipping_address}\" in 2 days");
-                        home.updateStock(product_id);
+                        stk.updateStock(product_id);
                     }
 
                 }else if (home_choice == 'c'){
@@ -131,10 +143,10 @@ namespace TradeRoute53
                     Console.WriteLine("\t\t\t\t Search");
                     Console.Write("\n> ");
                     string search = Console.ReadLine();
-                    home.searchProduct(search);
+                    srch.searchProduct(search);
 
                 }else if(home_choice == 'd'){
-                    home.addProduct(user);
+                    insprd.addProduct(user);
                 }
                 else if (home_choice == 'x'){
 

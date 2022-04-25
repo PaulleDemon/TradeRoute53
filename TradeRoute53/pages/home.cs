@@ -1,10 +1,40 @@
 using System.Data.SQLite;
 
-public class Home{
+interface iHome{
 
-    SQLiteConnection dbConnection;
+}
+interface iInsert{
+    public void addProduct(string user);
 
-    struct Product{
+}
+
+interface iStock{
+    public void updateStock(int product_id);
+
+}
+
+interface iList{
+
+    public void listProduct();
+
+}
+
+interface iDisplay{
+
+    public void displayProductFromId(int id);
+
+}
+
+interface iSearch{
+    public void searchProduct(string search);
+    
+}
+
+public class Home:iHome{
+
+    protected SQLiteConnection dbConnection;
+
+    protected struct Product{
         public string name;
         public string category;
         public string about;
@@ -13,8 +43,10 @@ public class Home{
         public int stock;
 
     }
+}
 
 
+ class Insert: Home, iInsert{
     public void addProduct(string user){
         
         // adds products to the database
@@ -82,7 +114,10 @@ public class Home{
         }
 
     }
+ }
 
+
+class Search: Home, iSearch{
     public void searchProduct(string search){
 
         // searches specific products
@@ -120,7 +155,10 @@ public class Home{
         dbConnection.Close();
 
     }
+}
 
+
+class List: Home, iList{
     public void listProduct(){
         
         // lists all products from the database
@@ -151,7 +189,10 @@ public class Home{
 
 
     }
+}
 
+
+class Stock: Home, iStock{
     public void updateStock(int product_id){
         // decreases the stock
         dbConnection = new SQLiteConnection("Data Source=./db.sqlite;Version=3;New=False;");
@@ -164,7 +205,10 @@ public class Home{
         cmd.ExecuteNonQuery();
         dbConnection.Close();
     }
+}
 
+
+class Display: Home, iDisplay{
     public void displayProductFromId(int id){
         // displays product in detail
 

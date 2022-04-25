@@ -3,7 +3,12 @@ using System.Data;
 using System.Data.SQLite;
 
 
-public class Login{
+interface ilogin{
+    public string login();
+    
+}
+
+public class Login:ilogin{
 
     SQLiteConnection dbConnection;
 

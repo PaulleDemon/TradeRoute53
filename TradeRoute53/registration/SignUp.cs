@@ -1,6 +1,9 @@
 using System.Data.SQLite;
 
-public class SignUp{
+interface isignup{
+    public bool signUp();
+}
+sealed public class SignUp:isignup{
 
     SQLiteConnection dbConnection;
 
