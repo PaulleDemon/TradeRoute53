@@ -3,12 +3,22 @@ using System.Data;
 using System.Data.SQLite;
 
 
+
 interface ilogin{
     public string login();
     
 }
 
-public class Login:ilogin{
+
+class UserNotFoundException : Exception
+{
+    public UserNotFoundException(string message="User doesn't exist")
+    {
+    }
+}
+
+
+sealed public class Login:ilogin{
 
     SQLiteConnection dbConnection;
 
@@ -17,7 +27,7 @@ public class Login:ilogin{
         public string password;
     }
 
-    protected bool checkUser(string username, string password){
+    protected void checkUser(string username, string password){
         
         // returns if a user exists
 
@@ -41,7 +51,11 @@ public class Login:ilogin{
         reader.Close();
         dbConnection.Close();
 
-        return record_exists;
+        if (!record_exists){
+            throw new UserNotFoundException();
+        }
+
+        // return record_exists;
     }
 
     public string login(){
@@ -74,10 +88,18 @@ public class Login:ilogin{
 
         }while(key.Key != ConsoleKey.Enter && usr.password.Length < 30);
 
-        if (checkUser(usr.name, usr.password))
+        try{
+            checkUser(usr.name, usr.password);
             return usr.name;
 
-        return "";
+        }catch(UserNotFoundException ex){
+            return "";
+        }
+
+        // if (checkUser(usr.name, usr.password))
+        //     return usr.name;
+
+        // return "";
     }
 
 }

@@ -3,6 +3,7 @@ using System.Data.SQLite;
 interface isignup{
     public bool signUp();
 }
+
 sealed public class SignUp:isignup{
 
     SQLiteConnection dbConnection;
