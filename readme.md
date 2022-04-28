@@ -10,4 +10,4 @@ principles.
 
 ### UML
 
-![UML](uml.drawio)
+![UML](UML.png)
